@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="game.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" href="stewey.png" />
+    <title>stewey</title>
+  </head>
+  <body>
+    <div>
+      <div class="main"></div>
+      <div class="game">
+        <p id="score">0</p>
+        <img src="acron.png" alt="" id="acron" />
+        <img src="stone.png" alt="" id="stone" />
+        <img src="stewey.png" alt="" class="stewey" id="stewey" />
+        <audio src="Squirrel_voice.wav" id="Squirrel_voice"></audio>
+        <audio src="Squirrel_voice_ouch.wav" id="Squirrel_voice_ouch"></audio>
+
+        <div class="lose" id="lose">
+          <div class="container">
+            <p class="Heighest_score">Heighest score</p>
+            <p id="lastScore"></p>
+            <button id="Retry">
+              <i class="fa fa-refresh"></i> &nbsp; Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var stewey = document.getElementById("stewey");
+      var acron = document.getElementById("acron");
+      var stone = document.getElementById("stone");
+      var marginLeft = 250;
+      var score = document.getElementById("score");
+      var lastScore = document.getElementById("lastScore");
+      var Retry = document.getElementById("Retry");
+      var lose = document.getElementById("lose");
+      var Squirrel_voice = document.getElementById("Squirrel_voice");
+      var Squirrel_voice_ouch = document.getElementById("Squirrel_voice_ouch");
+      var collisionDetected = false;
+
+      document.body.addEventListener("keydown", function (e) {
+        if (e.key == "x") {
+          stewey.style.marginLeft = marginLeft + "px";
+          marginLeft = 450;
+        } else if (e.key == "z") {
+          stewey.style.marginLeft = marginLeft - 200 + "px";
+          marginLeft = 250;
+        }
+      });
+
+      function checkCollision() {
+        var steweyRect = stewey.getBoundingClientRect();
+        var stoneRect = stone.getBoundingClientRect();
+        var acronRect = acron.getBoundingClientRect();
+
+        if (
+          steweyRect.left < acronRect.right &&
+          steweyRect.right > acronRect.left &&
+          steweyRect.top < acronRect.bottom &&
+          steweyRect.bottom > acronRect.top
+        ) {
+          if (!collisionDetected) {
+            score.innerText = Number(score.innerText) + 1;
+            collisionDetected = true;
+            Squirrel_voice.play();
+          }
+        } else {
+          collisionDetected = false;
+        }
+
+        //----------------------------------------
+
+        if (
+          steweyRect.left < stoneRect.right &&
+          steweyRect.right > stoneRect.left &&
+          steweyRect.top < stoneRect.bottom &&
+          steweyRect.bottom > stoneRect.top
+        ) {
+          lose.style.display = "block";
+          Squirrel_voice_ouch.play();
+          lastScore.innerText = score.innerText;
+
+          clearInterval(gameLoop);
+        }
+      }
+
+      var gameLoop = setInterval(checkCollision, 100);
+
+      Retry.addEventListener("click", function () {
+        lose.style.display = "none";
+
+        window.location.reload();
+      });
+      //-------------------------
+      var arr = [50, 250, 450];
+
+      const acronTime = setInterval(() => {
+        acron.style.marginLeft =
+          arr[Math.floor(Math.random() * arr.length)] + "px";
+      }, 1700);
+
+      //------------
+
+      const stoneTime = setInterval(() => {
+        stone.style.marginLeft =
+          arr[Math.floor(Math.random() * arr.length)] + "px";
+      }, 3400);
+    </script>
+  </body>
+</html>
