@@ -43,7 +43,6 @@
       var stewey = document.getElementById("stewey");
       var acron = document.getElementById("acron");
       var stone = document.getElementById("stone");
-      var marginLeft = 250;
       var score = document.getElementById("score");
       var lastScore = document.getElementById("lastScore");
       var Retry = document.getElementById("Retry");
@@ -51,14 +50,16 @@
       var Squirrel_voice = document.getElementById("Squirrel_voice");
       var Squirrel_voice_ouch = document.getElementById("Squirrel_voice_ouch");
       var collisionDetected = false;
+      var move = 150;
+      var currentPosition = 0;
 
       document.body.addEventListener("keydown", function (e) {
-        if (e.key == "x") {
-          stewey.style.marginLeft = marginLeft + "px";
-          marginLeft = 450;
-        } else if (e.key == "z") {
-          stewey.style.marginLeft = marginLeft - 200 + "px";
-          marginLeft = 250;
+        if (e.key == "x" && currentPosition < 300) {
+          currentPosition += move; // Increase position by 150%
+          stewey.style.transform = `translate(${currentPosition}%)`;
+        } else if (e.key == "z" && currentPosition > 0) {
+          currentPosition -= move; // Decrease position by 150%
+          stewey.style.transform = `translate(${currentPosition}%)`;
         }
       });
 
@@ -77,8 +78,7 @@
             score.innerText = Number(score.innerText) + 1;
             collisionDetected = true;
             Squirrel_voice.play();
-            console.log('ok');
-            
+            console.log("ok");
           }
         } else {
           collisionDetected = false;
@@ -94,7 +94,7 @@
         ) {
           lose.style.display = "block";
           Squirrel_voice_ouch.play();
-          console.log('ok');
+          console.log("ok");
 
           lastScore.innerText = score.innerText;
 
