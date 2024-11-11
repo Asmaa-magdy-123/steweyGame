@@ -8,32 +8,37 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
     <link rel="icon" href="stewey.png" />
     <title>stewey</title>
   </head>
   <body>
-    <div>
-      <div class="main"></div>
-      <div class="game">
-        <p id="score">0</p>
-        <img src="acron.png" alt="" id="acron" />
-        <img src="stone.png" alt="" id="stone" />
-        <img src="stewey.png" alt="" class="stewey" id="stewey" />
-        <audio src="Squirrel_voice.wav" id="Squirrel_voice"></audio>
-        <audio src="Squirrel_voice_ouch.wav" id="Squirrel_voice_ouch"></audio>
+    <!-- <div class="main"></div> -->
+    <div class="container">
+      <div class="d-flex justify-content-center w-100">
+        <div class="game">
+          <p id="score" class="text-center">0</p>
+          <img class="img-fluid" src="acron.png" alt="" id="acron" />
+          <img class="img-fluid" src="stone.png" alt="" id="stone" />
+          <img class="img-fluid stewey" src="stewey.png" alt="" id="stewey" />
+          <audio src="Squirrel_voice.wav" id="Squirrel_voice"></audio>
+          <audio src="Squirrel_voice_ouch.wav" id="Squirrel_voice_ouch"></audio>
 
-        <div class="lose" id="lose">
-          <div class="container">
-            <p class="Heighest_score">Heighest score</p>
-            <p id="lastScore"></p>
-            <button id="Retry">
-              <i class="fa fa-refresh"></i> &nbsp; Retry
-            </button>
+          <div class="lose" id="lose">
+            <div class="container h-100">
+              <p class="Heighest_score">Heighest score</p>
+              <p id="lastScore"></p>
+              <button id="Retry">
+                <i class="fa fa-refresh"></i> &nbsp; Retry
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <script src="./js/all.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
     <script>
       var stewey = document.getElementById("stewey");
       var acron = document.getElementById("acron");
@@ -72,6 +77,8 @@
             score.innerText = Number(score.innerText) + 1;
             collisionDetected = true;
             Squirrel_voice.play();
+            console.log('ok');
+            
           }
         } else {
           collisionDetected = false;
@@ -87,6 +94,8 @@
         ) {
           lose.style.display = "block";
           Squirrel_voice_ouch.play();
+          console.log('ok');
+
           lastScore.innerText = score.innerText;
 
           clearInterval(gameLoop);
